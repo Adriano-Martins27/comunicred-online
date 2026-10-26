@@ -11,6 +11,11 @@ import { IconChevronUp } from "@/assets/images/IconChevronUp";
 import { Log } from "@/types/log";
 import { Pill } from "@/components/Pill";
 import { Code } from "@/components/Code";
+import {
+  APPWRITE_ENDPOINT,
+  APPWRITE_PROJECT_ID,
+  APPWRITE_PROJECT_NAME,
+} from "@/lib/appwrite";
 
 interface LogsProps {
   toggleBottomSheet: () => void;
@@ -103,22 +108,18 @@ export const Logs = ({ toggleBottomSheet, isOpen, logs }: LogsProps) => {
               <View style={styles.logMetaRow}>
                 <View style={styles.logMetaCell}>
                   <Text style={styles.label}>Endpoint</Text>
-                  <Text style={styles.value}>
-                    {process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT}
-                  </Text>
+                  <Text style={styles.value}>{APPWRITE_ENDPOINT}</Text>
                 </View>
                 <View style={styles.logMetaCell}>
                   <Text style={styles.label}>Project ID</Text>
-                  <Text style={styles.value}>
-                    {process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID}
-                  </Text>
+                  <Text style={styles.value}>{APPWRITE_PROJECT_ID}</Text>
                 </View>
               </View>
               <View style={styles.logMetaRow}>
                 <View style={styles.logMetaCell}>
                   <Text style={styles.label}>Project name</Text>
                   <Text style={styles.value}>
-                    {process.env.EXPO_PUBLIC_APPWRITE_PROJECT_NAME}
+                    {APPWRITE_PROJECT_NAME || "—"}
                   </Text>
                 </View>
               </View>
