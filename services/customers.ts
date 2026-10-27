@@ -155,35 +155,6 @@ export async function createCustomer(
   return customer;
 }
 
-export async function updateCustomer(
-  id: string,
-  ownerId: string,
-  input: CustomerInput,
-  online?: boolean,
-): Promise<Customer> {
-  const payload = toPayload(ownerId, input);
-  const isOnline = online ?? (typeof navigator !== 'undefined' ? navigator.onLine : true);
-
-  if (!isOnline) {
-    // Offline: enfileirar e atualizar snapshot
-    await addToSyncQueue('customers', 'update', { $id: id, ...payload });
-    const existing = await getFromSnapshot('customers', id);
-    const updated = { ...existing, ...payload };
-    await upsertSnapshot('customers', id, updated);
-    return updated as Customer;
-  }
-
-  const doc = await databases.updateDocument(
-    APPWRITE_DATABASE_ID,
-    COLLECTIONS.customers,
-    id,
-    payload,
-  );
-  const customer = mapCustomer(doc as Record<string, unknown>);
-  await upsertSnapshot('customers', customer.$id, customer);
-  return customer;
-}
-
 export async function deleteCustomer(id: string): Promise<void> {
   await databases.deleteDocument(
     APPWRITE_DATABASE_ID,
